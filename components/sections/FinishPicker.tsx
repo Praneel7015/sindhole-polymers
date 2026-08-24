@@ -175,7 +175,7 @@ export default function FinishPicker() {
               initial={{ opacity: 0, scale: 0.97 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-md relative"
+              className="w-full max-w-md relative min-w-0"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -264,7 +264,7 @@ function WindowPreviewSVG({ finish }: { finish: (typeof finishes)[0] }) {
   const glassB = OY + OH - J;
 
   return (
-    <svg viewBox="0 0 440 480" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+    <svg viewBox="0 0 440 480" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto max-w-full">
       <defs>
         <linearGradient id={wallId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#F0EDE6" />

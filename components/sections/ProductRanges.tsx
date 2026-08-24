@@ -52,7 +52,7 @@ export default function ProductRanges() {
 
         {/* Coming soon note */}
         <motion.div
-          className="mt-10 flex items-center gap-3 p-5 rounded-xl border"
+          className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 p-5 rounded-xl border"
           style={{ borderColor: "var(--border-subtle)", background: "var(--surface-1)" }}
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
@@ -64,13 +64,13 @@ export default function ProductRanges() {
           >
             <PlusIcon />
           </div>
-          <p className="t-body-sm" style={{ color: "var(--fg-secondary)" }}>
+          <p className="t-body-sm min-w-0 flex-1" style={{ color: "var(--fg-secondary)" }}>
             <strong style={{ color: "var(--fg-ink)" }}>More series coming.</strong>{" "}
             We regularly expand our Greentech range. Contact us for tilt-&-turn, villa series, and combination systems.
           </p>
           <a
             href="#enquiry"
-            className="ml-auto flex-shrink-0 px-4 py-2 rounded-full t-body-xs font-medium border transition-colors hover:bg-[var(--surface-2)]"
+            className="sm:ml-auto flex-shrink-0 px-4 py-2 rounded-full t-body-xs font-medium border transition-colors hover:bg-[var(--surface-2)] self-start sm:self-auto"
             style={{ borderColor: "var(--border-default)", color: "var(--fg-secondary)" }}
           >
             Ask us

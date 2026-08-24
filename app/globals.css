@@ -82,6 +82,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   background: var(--surface-0);
   color: var(--fg-ink);
+  overflow-x: clip;
 }
 
 body {
@@ -91,47 +92,53 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   min-height: 100dvh;
+  overflow-x: clip;
+  max-width: 100vw;
 }
 
 /* ─── TYPOGRAPHY SCALE ─────────────────────────────────────────────── */
 /* Display — DM Sans, geometric precision */
 .t-display-xl {
   font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
-  font-size: clamp(2.75rem, 5.5vw, 5rem);
+  font-size: clamp(2.125rem, 8.5vw, 5rem);
   font-weight: 500;
-  line-height: 1.04;
+  line-height: 1.08;
   letter-spacing: -0.03em;
+  overflow-wrap: break-word;
 }
 .t-display-lg {
   font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
-  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  font-size: clamp(1.75rem, 6.5vw, 3.75rem);
   font-weight: 500;
-  line-height: 1.08;
+  line-height: 1.12;
   letter-spacing: -0.025em;
+  overflow-wrap: break-word;
 }
 .t-display-md {
   font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
   font-weight: 500;
-  line-height: 1.15;
+  line-height: 1.18;
   letter-spacing: -0.02em;
+  overflow-wrap: break-word;
 }
 .t-display-sm {
   font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
-  font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+  font-size: clamp(1.25rem, 3.5vw, 1.875rem);
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.25;
   letter-spacing: -0.015em;
 }
 
 /* Body — Inter */
-.t-body-lg   { font-size: 1.125rem; line-height: 1.65; }
+.t-body-lg   { font-size: clamp(1rem, 2.8vw, 1.125rem); line-height: 1.65; }
 .t-body      { font-size: 1rem;     line-height: 1.6;  }
 .t-body-sm   { font-size: 0.875rem; line-height: 1.55; }
 .t-body-xs   { font-size: 0.75rem;  line-height: 1.5;  letter-spacing: 0.01em; }
 
 /* Eyebrow / label */
-.t-eyebrow {
+.t-eyebrow,
+.t-overline {
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -163,21 +170,25 @@ button:focus-visible {
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
-  padding-inline: clamp(1.25rem, 4vw, 3rem);
+  padding-inline: clamp(1rem, 4vw, 3rem);
 }
 .container-prose {
   width: 100%;
   max-width: var(--container-prose);
   margin-inline: auto;
-  padding-inline: clamp(1.25rem, 4vw, 3rem);
+  padding-inline: clamp(1rem, 4vw, 3rem);
 }
 
 /* ─── SECTION SPACING ──────────────────────────────────────────────── */
-.section-gap { padding-block: clamp(5rem, 10vw, 9rem); }
-.section-gap-sm { padding-block: clamp(3rem, 6vw, 5rem); }
-.section-pad { padding-block: clamp(5rem, 10vw, 9rem); }
+.section-gap { padding-block: clamp(3.5rem, 8vw, 9rem); }
+.section-gap-sm { padding-block: clamp(2.5rem, 5vw, 5rem); }
+.section-pad { padding-block: clamp(3.5rem, 8vw, 9rem); }
 /* Offset for fixed header: utility bar (32px) + nav (64px) = 96px */
-.page-offset { padding-top: 6rem; }
+.page-offset { padding-top: calc(5.5rem + env(safe-area-inset-top, 0px)); }
+
+@media (max-width: 639px) {
+  .page-offset { padding-top: calc(4.5rem + env(safe-area-inset-top, 0px)); }
+}
 
 /* ─── FORM INPUTS ───────────────────────────────────────────────────── */
 .field-input {

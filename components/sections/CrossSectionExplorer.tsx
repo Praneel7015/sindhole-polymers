@@ -60,7 +60,7 @@ export default function CrossSectionExplorer() {
     <section
       id="cross-section"
       ref={ref}
-      className="section-gap overflow-hidden"
+      className="section-gap overflow-x-clip"
       style={{ background: "var(--surface-0)" }}
     >
       <div className="container">
@@ -91,7 +91,7 @@ export default function CrossSectionExplorer() {
             initial={{ opacity: 0, scale: 0.97 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="w-full"
+            className="w-full overflow-x-auto -mx-1 px-1"
           >
             <CrossSectionSVG
               inView={inView}

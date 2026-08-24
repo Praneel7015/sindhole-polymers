@@ -124,7 +124,7 @@ export default function Sectors() {
                 {s.body}
               </p>
 
-              <ul className="grid grid-cols-2 gap-2 relative">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 relative">
                 {s.outcomes.map((o) => (
                   <li key={o} className="flex items-start gap-2 t-body-xs" style={{ color: "var(--fg-secondary)" }}>
                     <span className="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "var(--accent)" }} />

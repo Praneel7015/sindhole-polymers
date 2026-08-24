@@ -12,7 +12,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative min-h-[100dvh] flex flex-col justify-end overflow-hidden pt-32 pb-20"
+      className="relative min-h-[100svh] flex flex-col justify-start sm:justify-end overflow-x-clip pt-[7.5rem] pb-16 sm:pt-32 sm:pb-24"
       style={{ background: "var(--surface-0)" }}
       aria-label="Hero"
     >
@@ -48,21 +48,21 @@ export default function Hero() {
         transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
       />
 
-      <div className="container relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+      <div className="container relative flex-1 flex flex-col justify-center sm:justify-end">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-end">
 
           {/* Left — text */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 min-w-0">
             {/* Eyebrow */}
             <motion.div
               variants={fadeUp}
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-              className="flex items-center gap-3 mb-8"
+              className="flex items-center gap-3 mb-5 sm:mb-8"
             >
               <span
-                className="t-overline"
+                className="t-eyebrow"
                 style={{ color: "var(--accent)" }}
               >
                 Authorised Greentech Dealer · Bidar, Karnataka
@@ -70,11 +70,11 @@ export default function Hero() {
             </motion.div>
 
             {/* Main headline — kinetic mask reveal */}
-            <div className="overflow-hidden mb-6 pb-3">
+            <div className="mb-5 sm:mb-6 sm:overflow-hidden sm:pb-3">
               <motion.h1
                 className="t-display-xl"
                 style={{ color: "var(--fg-ink)" }}
-                initial={{ y: shouldReduceMotion ? 0 : "110%", opacity: shouldReduceMotion ? 0 : 1 }}
+                initial={{ y: shouldReduceMotion ? 0 : 28, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
               >
@@ -93,7 +93,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.55 }}
-              className="t-body-lg max-w-xl mb-10"
+              className="t-body-lg max-w-xl mb-8 sm:mb-10"
               style={{ color: "var(--fg-secondary)" }}
             >
               Sindhole Polymers supplies Greentech uPVC window & door profiles to
@@ -107,11 +107,11 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
-              className="flex flex-wrap gap-3"
+              className="flex flex-col sm:flex-row flex-wrap gap-3"
             >
               <a
                 href="#enquiry"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-medium transition-all duration-200 hover:opacity-90 hover:-translate-y-px"
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-full font-medium transition-all duration-200 hover:opacity-90 hover:-translate-y-px w-full sm:w-auto"
                 style={{ background: "var(--accent)", color: "var(--accent-on)" }}
               >
                 Enquire about profiles
@@ -119,7 +119,7 @@ export default function Hero() {
               </a>
               <a
                 href="#products"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-medium border transition-all duration-200 hover:bg-[var(--surface-1)]"
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-full font-medium border transition-all duration-200 hover:bg-[var(--surface-1)] w-full sm:w-auto"
                 style={{ borderColor: "var(--border-default)", color: "var(--fg-ink)" }}
               >
                 Explore product ranges
@@ -128,7 +128,7 @@ export default function Hero() {
                 href="https://wa.me/919391905091"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-medium border transition-all duration-200 hover:bg-[var(--surface-1)]"
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-full font-medium border transition-all duration-200 hover:bg-[var(--surface-1)] w-full sm:w-auto"
                 style={{ borderColor: "var(--border-subtle)", color: "var(--fg-secondary)" }}
               >
                 <WhatsAppIcon />
@@ -142,7 +142,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.9 }}
-              className="flex flex-wrap gap-x-8 gap-y-3 mt-12 pt-8 border-t"
+              className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-3 mt-10 sm:mt-12 pt-6 sm:pt-8 border-t"
               style={{ borderColor: "var(--border-subtle)" }}
             >
               {[
@@ -150,16 +150,18 @@ export default function Hero() {
                 { val: "5", unit: "Chambers", note: "multi-chamber precision" },
                 { val: "ISO", unit: "9001:2015", note: "certified quality system" },
               ].map((s) => (
-                <div key={s.unit} className="flex flex-col gap-0.5">
-                  <span className="t-display-sm font-medium leading-none" style={{ color: "var(--fg-ink)" }}>
+                <div key={s.unit} className="flex items-baseline gap-3 sm:flex-col sm:gap-0.5 min-w-0">
+                  <span className="t-display-sm font-medium leading-none tabular-nums" style={{ color: "var(--fg-ink)" }}>
                     {s.val}
                   </span>
-                  <span className="t-body-sm font-medium" style={{ color: "var(--fg-ink)" }}>
-                    {s.unit}
-                  </span>
-                  <span className="t-body-xs" style={{ color: "var(--fg-muted)" }}>
-                    {s.note}
-                  </span>
+                  <div className="min-w-0">
+                    <span className="t-body-sm font-medium block" style={{ color: "var(--fg-ink)" }}>
+                      {s.unit}
+                    </span>
+                    <span className="t-body-xs block" style={{ color: "var(--fg-muted)" }}>
+                      {s.note}
+                    </span>
+                  </div>
                 </div>
               ))}
             </motion.div>
@@ -177,13 +179,13 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Bottom scroll cue */}
+      {/* Bottom scroll cue — desktop only to avoid overlapping short viewports */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
         animate="visible"
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 1.3 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2"
       >
         <span className="t-body-xs" style={{ color: "var(--fg-muted)" }}>Scroll to explore</span>
         <motion.div

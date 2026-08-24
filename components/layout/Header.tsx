@@ -26,13 +26,25 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const [headerH, setHeaderH] = useState(96);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const measure = () => {
+      if (headerRef.current) setHeaderH(headerRef.current.getBoundingClientRect().height);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [scrolled, mobileOpen]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -46,18 +58,24 @@ export function Header() {
 
   useEffect(() => {
     if (mobileOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
+    else {
+      document.body.style.overflow = "";
+      setMobileProductsOpen(false);
+    }
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
+
+  const headerSolid = scrolled || mobileOpen;
 
   return (
     <>
       <motion.header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        ref={headerRef}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 pt-[env(safe-area-inset-top,0px)]"
         style={{
-          background: scrolled ? "rgba(250,250,248,0.95)" : "transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-          borderBottom: scrolled ? "1px solid var(--border-subtle)" : "1px solid transparent",
+          background: headerSolid ? "rgba(250,250,248,0.98)" : "transparent",
+          backdropFilter: headerSolid ? "blur(12px)" : "none",
+          borderBottom: headerSolid ? "1px solid var(--border-subtle)" : "1px solid transparent",
           boxShadow: scrolled ? "var(--shadow-xs)" : "none",
         }}
       >
@@ -69,23 +87,25 @@ export function Header() {
           animate={{ height: scrolled ? 0 : 32 }}
           transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
         >
-          <div className="container flex items-center justify-between h-8">
-            <span className="t-body-xs" style={{ color: "var(--fg-muted)" }}>
-              Bidar · Kalaburagi · Gulbarga · North Karnataka
+          <div className="container flex items-center justify-between h-8 gap-3 min-w-0">
+            <span className="t-body-xs truncate min-w-0" style={{ color: "var(--fg-muted)" }}>
+              <span className="sm:hidden">Bidar · North Karnataka</span>
+              <span className="hidden sm:inline">Bidar · Kalaburagi · Gulbarga · North Karnataka</span>
             </span>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
               <a
                 href="tel:+919391905091"
                 className="t-body-xs flex items-center gap-1.5 transition-colors"
                 style={{ color: "var(--fg-secondary)" }}
               >
                 <PhoneIcon />
-                +91 93919 05091
+                <span className="sm:hidden">Call</span>
+                <span className="hidden sm:inline">+91 93919 05091</span>
               </a>
-              <span style={{ color: "var(--border-default)" }}>|</span>
+              <span className="hidden sm:inline" style={{ color: "var(--border-default)" }}>|</span>
               <a
                 href="#fabricators"
-                className="t-body-xs font-medium transition-colors hover:text-[var(--accent)]"
+                className="t-body-xs font-medium transition-colors hover:text-[var(--accent)] hidden sm:inline"
                 style={{ color: "var(--fg-secondary)" }}
               >
                 Become a Fabricator
@@ -219,52 +239,124 @@ export function Header() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-40 flex flex-col"
-            style={{ background: "var(--surface-0)" }}
+            style={{ background: "#FAFAF8" }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
           >
-            {/* Scrollable body — starts below the fixed header (64px nav + up to 32px utility) */}
-            <div className="flex-1 overflow-y-auto flex flex-col" style={{ paddingTop: "72px" }}>
-              {/* Nav links */}
-              <nav className="flex flex-col px-5 pt-4">
+            <div
+              className="flex-1 min-h-0 flex flex-col"
+              style={{
+                paddingTop: headerH + 8,
+                paddingBottom: "max(0.75rem, env(safe-area-inset-bottom, 0px))",
+              }}
+            >
+              <nav className="flex-1 min-h-0 overflow-y-auto overscroll-contain flex flex-col px-4 sm:px-6">
                 {navItems.map((item, i) => (
-                  <motion.a
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.04 + i * 0.05, duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                    className="flex items-center justify-between py-3.5 border-b text-lg font-medium"
-                    style={{
-                      borderColor: "var(--border-subtle)",
-                      color: "var(--fg-ink)",
-                      fontFamily: "var(--font-dm-sans), sans-serif",
-                      letterSpacing: "-0.01em",
-                    }}
-                  >
-                    {item.label}
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ color: "var(--fg-subtle)", flexShrink: 0 }}>
-                      <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </motion.a>
+                  <div key={item.label}>
+                    {item.sub ? (
+                      <>
+                        <motion.button
+                          type="button"
+                          onClick={() => setMobileProductsOpen((v) => !v)}
+                          initial={{ opacity: 0, x: 16 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.04 + i * 0.04, duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                          className="w-full flex items-center justify-between py-3.5 sm:py-4 border-b text-base sm:text-lg font-medium min-h-[48px] text-left"
+                          style={{
+                            borderColor: "var(--border-subtle)",
+                            color: "var(--fg-ink)",
+                            fontFamily: "var(--font-dm-sans), sans-serif",
+                            letterSpacing: "-0.01em",
+                          }}
+                          aria-expanded={mobileProductsOpen}
+                        >
+                          {item.label}
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            style={{
+                              color: "var(--fg-muted)",
+                              flexShrink: 0,
+                              transform: mobileProductsOpen ? "rotate(90deg)" : "none",
+                              transition: "transform 0.2s ease",
+                            }}
+                            aria-hidden="true"
+                          >
+                            <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </motion.button>
+                        <AnimatePresence initial={false}>
+                          {mobileProductsOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                              className="overflow-hidden border-b"
+                              style={{ borderColor: "var(--border-subtle)" }}
+                            >
+                              <a
+                                href={item.href}
+                                onClick={() => setMobileOpen(false)}
+                                className="py-2.5 pl-3 t-body-sm min-h-[44px] flex items-center font-medium"
+                                style={{ color: "var(--accent)" }}
+                              >
+                                View all product ranges →
+                              </a>
+                              {item.sub.map((s) => (
+                                <a
+                                  key={s.label}
+                                  href={s.href}
+                                  onClick={() => setMobileOpen(false)}
+                                  className="py-2.5 pl-3 t-body-sm min-h-[44px] flex flex-col justify-center"
+                                  style={{ color: "var(--fg-secondary)" }}
+                                >
+                                  <span className="font-medium" style={{ color: "var(--fg-ink)" }}>{s.label}</span>
+                                  <span className="t-body-xs" style={{ color: "var(--fg-muted)" }}>{s.desc}</span>
+                                </a>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </>
+                    ) : (
+                      <motion.a
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        initial={{ opacity: 0, x: 16 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.04 + i * 0.04, duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex items-center justify-between py-3.5 sm:py-4 border-b text-base sm:text-lg font-medium min-h-[48px]"
+                        style={{
+                          borderColor: "var(--border-subtle)",
+                          color: "var(--fg-ink)",
+                          fontFamily: "var(--font-dm-sans), sans-serif",
+                          letterSpacing: "-0.01em",
+                        }}
+                      >
+                        {item.label}
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ color: "var(--fg-muted)", flexShrink: 0 }} aria-hidden="true">
+                          <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </motion.a>
+                    )}
+                  </div>
                 ))}
               </nav>
 
-              {/* CTAs */}
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.32, duration: 0.28 }}
-                className="px-5 pt-6 pb-2 flex flex-col gap-3"
-              >
+              <div className="flex-shrink-0 px-4 sm:px-6 pt-4 flex flex-col gap-2.5 border-t" style={{ borderColor: "var(--border-subtle)" }}>
                 <a
                   href="#enquiry"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full py-3.5 rounded-xl text-center t-body font-semibold transition-opacity hover:opacity-90"
+                  className="w-full py-3.5 rounded-xl text-center t-body font-semibold transition-opacity hover:opacity-90 min-h-[48px] flex items-center justify-center"
                   style={{ background: "var(--accent)", color: "var(--accent-on)" }}
                 >
                   Enquire Now
@@ -274,39 +366,31 @@ export function Header() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full py-3.5 rounded-xl text-center t-body font-medium border flex items-center justify-center gap-2 transition-colors hover:bg-[var(--surface-1)]"
+                  className="w-full py-3.5 rounded-xl text-center t-body font-medium border flex items-center justify-center gap-2 transition-colors hover:bg-[var(--surface-1)] min-h-[48px]"
                   style={{ borderColor: "#25D366", color: "#1a6637" }}
                 >
                   <WhatsAppMiniIcon />
                   WhatsApp Us
                 </a>
-              </motion.div>
-
-              {/* Contact footer */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.42, duration: 0.28 }}
-                className="px-5 pt-4 pb-8 mt-auto flex items-center justify-between"
-                style={{ borderTop: "1px solid var(--border-subtle)" }}
-              >
-                <div>
-                  <p className="t-body-xs" style={{ color: "var(--fg-muted)" }}>Call us</p>
-                  <a
-                    href="tel:+919391905091"
-                    className="t-body font-semibold"
-                    style={{ color: "var(--fg-ink)" }}
-                  >
-                    +91 93919 05091
-                  </a>
+                <div className="pt-2 pb-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="t-body-xs" style={{ color: "var(--fg-muted)" }}>Call us</p>
+                    <a
+                      href="tel:+919391905091"
+                      className="t-body-sm font-semibold break-all"
+                      style={{ color: "var(--fg-ink)" }}
+                    >
+                      +91 93919 05091
+                    </a>
+                  </div>
+                  <div className="sm:text-right flex-shrink-0">
+                    <p className="t-body-xs" style={{ color: "var(--fg-muted)" }}>Hours</p>
+                    <p className="t-body-xs font-medium" style={{ color: "var(--fg-secondary)" }}>
+                      Mon–Sat, 10–5 PM
+                    </p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="t-body-xs" style={{ color: "var(--fg-muted)" }}>Hours</p>
-                  <p className="t-body-xs font-medium" style={{ color: "var(--fg-secondary)" }}>
-                    Mon–Sat, 10–5 PM
-                  </p>
-                </div>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         )}
@@ -319,7 +403,15 @@ export function Header() {
 
 function Wordmark() {
   return (
-    <svg width="180" height="32" viewBox="0 0 180 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Sindhole Polymers">
+    <svg
+      width="180"
+      height="32"
+      viewBox="0 0 180 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Sindhole Polymers"
+      className="w-[148px] sm:w-[180px] h-auto"
+    >
       {/* S mark — geometric notched rectangle */}
       <rect x="1" y="4" width="12" height="12" rx="1" fill="var(--accent)" />
       <rect x="1" y="16" width="12" height="12" rx="1" fill="var(--accent)" opacity="0.35" />

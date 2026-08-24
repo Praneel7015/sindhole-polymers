@@ -76,13 +76,14 @@ export default function Resources() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.25, delay: i * 0.04 }}
-                className="flex items-center gap-5 p-5 rounded-xl border transition-colors"
+                className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 sm:p-5 rounded-xl border transition-colors"
                 style={{
                   borderColor: "var(--border-subtle)",
                   background: "var(--surface-0)",
                   opacity: r.url ? 1 : 0.7,
                 }}
               >
+                <div className="flex gap-4 min-w-0 flex-1">
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
                   style={{ background: "var(--surface-2)", color: "var(--fg-secondary)" }}
@@ -110,7 +111,8 @@ export default function Resources() {
                     </p>
                   )}
                 </div>
-                <div className="flex-shrink-0 flex flex-col items-end gap-1">
+                </div>
+                <div className="flex-shrink-0 flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 pl-[3.5rem] sm:pl-0">
                   <span className="t-body-xs" style={{ color: "var(--fg-muted)" }}>
                     {r.size}
                   </span>
