@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/next";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({
     <html lang="en" className={`${dmSans.variable} ${inter.variable}`}>
       <body>
         {children}
+        <Analytics />
         {/* Cloudflare Web Analytics — cookieless, no consent banner needed */}
         {process.env.NEXT_PUBLIC_CF_ANALYTICS_TOKEN && (
           <script
