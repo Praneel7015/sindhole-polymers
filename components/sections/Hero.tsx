@@ -1,13 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-
-const taglines = [
-  "Precision uPVC profiles for windows that last a generation.",
-  "From our showroom in Bidar to buildings across North Karnataka.",
-  "The right profile, backed by the right people.",
-];
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -27,7 +20,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1800&q=80&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&q=80&auto=format&fit=crop"
           alt=""
           className="w-full h-full object-cover"
           style={{ opacity: 0.055, filter: "grayscale(40%) contrast(1.1)" }}
@@ -172,42 +165,14 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right — real photo of uPVC window installation */}
+          {/* Right — animated window assembly diagram */}
           <motion.div
             className="hidden lg:flex lg:col-span-5 items-center justify-center"
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="relative w-full rounded-2xl overflow-hidden" style={{ aspectRatio: "4/5" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=85&auto=format&fit=crop"
-                alt="Modern uPVC window installation in a residential building"
-                className="w-full h-full object-cover"
-                style={{ filter: "saturate(0.85) contrast(1.05)" }}
-              />
-              {/* Subtle overlay so it blends with the light background */}
-              <div
-                className="absolute inset-0"
-                style={{ background: "linear-gradient(to bottom, transparent 60%, var(--surface-0) 100%)" }}
-              />
-              {/* Floating badge */}
-              <div
-                className="absolute bottom-5 left-5 right-5 px-4 py-3 rounded-xl backdrop-blur-sm border"
-                style={{
-                  background: "rgba(250,250,248,0.88)",
-                  borderColor: "var(--border-subtle)",
-                }}
-              >
-                <p className="t-body-xs font-semibold" style={{ color: "var(--fg-ink)" }}>
-                  Greentech 5-chamber profile
-                </p>
-                <p className="t-body-xs mt-0.5" style={{ color: "var(--fg-muted)" }}>
-                  ISO 9001 · Lead-free · UV-stabilised
-                </p>
-              </div>
-            </div>
+            <WindowAssemblyIllustration reduced={!!shouldReduceMotion} />
           </motion.div>
         </div>
       </div>

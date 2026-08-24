@@ -79,8 +79,8 @@ export default function About() {
             <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: "16/9" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=900&q=80&auto=format&fit=crop"
-                alt="Modern building with uPVC windows — representative of Greentech installations"
+                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80&auto=format&fit=crop"
+                alt="Modern home with large glazed openings — representative of Greentech installations"
                 className="w-full h-full object-cover"
                 style={{ filter: "saturate(0.8) contrast(1.05)" }}
               />
@@ -96,7 +96,7 @@ export default function About() {
                   color: "var(--fg-secondary)",
                 }}
               >
-                Greentech uPVC installation — representative image
+                Glazed openings — representative image
               </span>
             </div>
 

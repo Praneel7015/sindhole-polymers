@@ -216,91 +216,144 @@ function WindowPreviewSVG({ finish }: { finish: (typeof finishes)[0] }) {
   const woodId = `wood-${finish.id}`;
   const wallId = `wall-${finish.id}`;
   const clipId = `glass-${finish.id}`;
-  const fill   = isWood ? `url(#${woodId})` : fc;
+  const fill = isWood ? `url(#${woodId})` : fc;
 
-  // Chunkier bars — 30px sides, 28px top/bottom, 22px mullion, 20px transom
+  // Thick profile bars — outer frame + mullion/transom (100% chunkier)
+  const OX = 40;
+  const OY = 16;
+  const OW = 360;
+  const OH = 440;
+  const J = 84; // jamb / rail thickness
+  const M = 60; // mullion
+  const T = 56; // transom
+
   const bars = [
-    { x:  60, y:  28, w: 320, h:  28 }, // top rail
-    { x:  60, y: 412, w: 320, h:  28 }, // bottom rail
-    { x:  60, y:  28, w:  30, h: 412 }, // left jamb
-    { x: 350, y:  28, w:  30, h: 412 }, // right jamb
-    { x: 209, y:  56, w:  22, h: 356 }, // centre mullion
-    { x:  90, y: 222, w: 280, h:  20 }, // transom
+    { x: OX, y: OY, w: OW, h: J }, // top rail
+    { x: OX, y: OY + OH - J, w: OW, h: J }, // bottom rail
+    { x: OX, y: OY, w: J, h: OH }, // left jamb
+    { x: OX + OW - J, y: OY, w: J, h: OH }, // right jamb
+    { x: OX + (OW - M) / 2, y: OY + J, w: M, h: OH - 2 * J }, // centre mullion
+    { x: OX + J, y: OY + (OH - T) / 2, w: OW - 2 * J, h: T }, // transom
   ];
 
-  // Glass panes — fills the openings between bars
   const panes = [
-    { x:  90, y:  56, w: 117, h: 164 }, // TL
-    { x: 231, y:  56, w: 117, h: 164 }, // TR
-    { x:  90, y: 242, w: 117, h: 170 }, // BL
-    { x: 231, y: 242, w: 117, h: 170 }, // BR
+    { x: OX + J, y: OY + J, w: (OW - 2 * J - M) / 2, h: (OH - 2 * J - T) / 2 },
+    {
+      x: OX + J + (OW - 2 * J - M) / 2 + M,
+      y: OY + J,
+      w: (OW - 2 * J - M) / 2,
+      h: (OH - 2 * J - T) / 2,
+    },
+    {
+      x: OX + J,
+      y: OY + J + (OH - 2 * J - T) / 2 + T,
+      w: (OW - 2 * J - M) / 2,
+      h: (OH - 2 * J - T) / 2,
+    },
+    {
+      x: OX + J + (OW - 2 * J - M) / 2 + M,
+      y: OY + J + (OH - 2 * J - T) / 2 + T,
+      w: (OW - 2 * J - M) / 2,
+      h: (OH - 2 * J - T) / 2,
+    },
   ];
+
+  const glassL = OX + J;
+  const glassT = OY + J;
+  const glassR = OX + OW - J;
+  const glassB = OY + OH - J;
 
   return (
     <svg viewBox="0 0 440 480" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
       <defs>
         <linearGradient id={wallId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stopColor="#F0EDE6" />
+          <stop offset="0%" stopColor="#F0EDE6" />
           <stop offset="100%" stopColor="#E4E0D8" />
         </linearGradient>
         {isWood && (
           <pattern id={woodId} patternUnits="userSpaceOnUse" width="8" height="40" patternTransform="rotate(8)">
             <rect width="8" height="40" fill={fc} />
-            <line x1="2" y1="0" x2="2" y2="40" stroke={fs} strokeWidth="1"   opacity="0.4" />
+            <line x1="2" y1="0" x2="2" y2="40" stroke={fs} strokeWidth="1" opacity="0.4" />
             <line x1="5" y1="0" x2="5" y2="40" stroke={fs} strokeWidth="0.5" opacity="0.2" />
           </pattern>
         )}
-        {/* Single clip region covering all 4 glass panes */}
         <clipPath id={clipId}>
-          {panes.map((g, i) => <rect key={i} {...g} />)}
+          {panes.map((g, i) => (
+            <rect key={i} {...g} />
+          ))}
         </clipPath>
       </defs>
 
       {/* Wall */}
       <rect width="440" height="480" fill={`url(#${wallId})`} />
       <rect x="0" y="448" width="440" height="32" fill="#D8D3C8" />
-      <rect x="0" y="444" width="440" height="4"  fill="#C4BFB2" />
+      <rect x="0" y="444" width="440" height="4" fill="#C4BFB2" />
       {/* Frame drop shadow */}
-      <rect x="56" y="32" width="328" height="416" rx="5" fill="rgba(0,0,0,0.09)" />
+      <rect x={OX - 4} y={OY + 4} width={OW} height={OH} rx="5" fill="rgba(0,0,0,0.09)" />
 
-      {/* Glass panes — sky blue base */}
-      {panes.map((g, i) => <rect key={i} {...g} fill="#8EC5E0" />)}
-      {/* Brighter sky at top half of each pane */}
+      {/* Clear glass — faint cool wash only (no solid blue panes) */}
       {panes.map((g, i) => (
-        <rect key={i} x={g.x} y={g.y} width={g.w} height={Math.round(g.h * 0.5)} fill="#C0DCF0" />
+        <rect key={i} {...g} fill="rgba(255,255,255,0.28)" />
       ))}
 
-      {/* ONE diagonal reflection sweep across the whole window — clipped to glass */}
+      {/* One diagonal reflection across the whole window */}
       <polygon
-        points="90,56 348,56 90,412"
-        fill="white" fillOpacity="0.18"
+        points={`${glassL},${glassT} ${glassR},${glassT} ${glassL},${glassB}`}
+        fill="white"
+        fillOpacity="0.22"
         clipPath={`url(#${clipId})`}
       />
-      {/* Bright leading edge of that sweep */}
       <polygon
-        points="90,56 210,56 90,220"
-        fill="white" fillOpacity="0.20"
+        points={`${glassL},${glassT} ${(glassL + glassR) / 2},${glassT} ${glassL},${(glassT + glassB) / 2}`}
+        fill="white"
+        fillOpacity="0.16"
         clipPath={`url(#${clipId})`}
       />
 
-      {/* Frame bars — on top of glass */}
-      {bars.map((b, i) => <rect key={i} {...b} fill={fill} />)}
-      {/* Outer frame stroke */}
-      <rect x="60" y="28" width="320" height="412" rx="2"
-        fill="none" stroke={fs} strokeWidth="1.5" />
-      {/* Subtle inset shadow on glass edges */}
+      {/* Frame bars */}
+      {bars.map((b, i) => (
+        <rect key={i} {...b} fill={fill} />
+      ))}
+      {/* Outer frame stroke — heavier border */}
+      <rect
+        x={OX}
+        y={OY}
+        width={OW}
+        height={OH}
+        rx="3"
+        fill="none"
+        stroke={fs}
+        strokeWidth="6"
+      />
+      {/* Inner edge line for profile depth */}
+      <rect
+        x={OX + 4}
+        y={OY + 4}
+        width={OW - 8}
+        height={OH - 8}
+        rx="2"
+        fill="none"
+        stroke="rgba(0,0,0,0.06)"
+        strokeWidth="1.5"
+      />
+      {/* Glass rebate edge */}
       {panes.map((g, i) => (
-        <rect key={i} {...g} fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1.5" />
+        <rect key={i} {...g} fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="1.5" />
       ))}
 
       {/* Handle */}
       <rect
-        x="335" y="222" width="9" height="26" rx="4.5"
+        x={OX + OW - J - 18}
+        y={OY + OH / 2 - 18}
+        width="14"
+        height="36"
+        rx="7"
         fill={isWood ? "#A08060" : finish.id === "black" ? "#777" : "#C8C4BC"}
-        stroke={`${fs}44`} strokeWidth="0.75"
+        stroke={`${fs}44`}
+        strokeWidth="1"
       />
       {/* Ground shadow */}
-      <ellipse cx="220" cy="434" rx="152" ry="6" fill="rgba(0,0,0,0.07)" />
+      <ellipse cx="220" cy="448" rx="170" ry="7" fill="rgba(0,0,0,0.07)" />
     </svg>
   );
 }

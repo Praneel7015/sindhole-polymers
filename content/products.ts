@@ -37,8 +37,7 @@ export const products: ProductRange[] = [
     chips: ["Casement", "Outward sash", "Inward sash", "T-Mullion", "Z-Mullion"],
     type: "casement",
     available: true,
-    photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&auto=format&fit=crop",
-    imageCredit: "Greentech uPVC India Pvt. Ltd.",
+    photo: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=700&q=80&auto=format&fit=crop",
   },
   {
     id: "60-casement",
@@ -58,8 +57,7 @@ export const products: ProductRange[] = [
     chips: ["Casement", "Window sash", "Door sash", "Louver bead", "Glazing bead"],
     type: "casement",
     available: true,
-    photo: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=700&q=80&auto=format&fit=crop",
-    imageCredit: "Greentech uPVC India Pvt. Ltd.",
+    photo: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80&auto=format&fit=crop",
   },
   {
     id: "80-sliding",
@@ -78,8 +76,7 @@ export const products: ProductRange[] = [
     chips: ["Sliding", "Interlock", "Mesh frame", "Shutter mullion", "Wide span"],
     type: "sliding",
     available: true,
-    photo: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80&auto=format&fit=crop",
-    imageCredit: "Greentech uPVC India Pvt. Ltd.",
+    photo: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80&auto=format&fit=crop",
   },
 ];
 

@@ -20,7 +20,7 @@ const sectors = [
     body: "Villa owners notice the details. Slim sightlines, clean profiles, woodgrain options that don't require maintenance — Greentech's 60mm casement and the 80mm slider are the go-to for discerning residential builds.",
     outcomes: ["Woodgrain and black foil options", "Slimline 52mm casement for daylight", "Dual-colour interior/exterior", "Tilt-&-turn on request"],
     icon: "villa",
-    photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=75&auto=format&fit=crop",
+    photo: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=75&auto=format&fit=crop",
   },
   {
     id: "commercial",
@@ -29,7 +29,7 @@ const sectors = [
     body: "Offices, clinics, schools, and hotels demand windows that seal against noise, perform thermally, and require zero maintenance through heavy occupancy cycles. uPVC delivers all three.",
     outcomes: ["Acoustic insulation for noise-sensitive spaces", "Low-maintenance, high-durability", "Security-grade hardware compatibility", "Large span sliding systems"],
     icon: "commercial",
-    photo: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=75&auto=format&fit=crop",
+    photo: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=75&auto=format&fit=crop",
   },
   {
     id: "replacement",
@@ -38,7 +38,7 @@ const sectors = [
     body: "Replacing rusting MS grilles or swollen timber frames? uPVC profiles slot into existing openings, transform thermal comfort overnight, and eliminate the paint cycles that followed every monsoon.",
     outcomes: ["Custom-cut to existing opening sizes", "No repainting, ever", "Immediate noise & thermal improvement", "Can match existing colour choices"],
     icon: "refurb",
-    photo: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=75&auto=format&fit=crop",
+    photo: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=75&auto=format&fit=crop",
   },
 ];
 
