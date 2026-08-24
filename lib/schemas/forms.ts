@@ -2,20 +2,12 @@ import { z } from "zod";
 
 export const userTypeSchema = z.enum(["trade", "homeowner"]);
 
-/** Optional text input — missing keys and empty strings both become "". */
-const optionalText = z.string().default("");
-
+// Email: pass-through if empty, validate if non-empty
 const optionalEmail = z
   .string()
-  .default("")
-  .pipe(z.union([z.literal(""), z.string().email("Enter a valid email address")]));
-
-const turnstileToken = z.preprocess(
-  (v) => (v === undefined || v === null ? "" : v),
-  z.string().min(1, "Please complete the security check"),
-);
-
-const honeypot = z.union([z.literal(""), z.undefined()]).optional();
+  .refine((v) => v === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), {
+    message: "Enter a valid email address",
+  });
 
 // ─── Base contact fields ───────────────────────────────────────────────────────
 const contactBase = z.object({
@@ -28,27 +20,22 @@ const contactBase = z.object({
   email: optionalEmail,
   city: z
     .string()
-    .default("")
     .refine((v) => v === "" || v.length >= 2, { message: "Enter your city" }),
-  turnstileToken,
-  _hp: honeypot,
+  turnstileToken: z.string().min(1, "Please complete the security check"),
+  _hp: z.literal("").optional(),
 });
 
 // ─── Enquiry schema (multi-step) ──────────────────────────────────────────────
 export const enquirySchema = contactBase.extend({
-  company: optionalText,
-  sector: optionalText,
-  product: optionalText,
-  quantity: optionalText,
-  timeline: optionalText,
-  message: z.string().default("").pipe(z.string().max(2000)),
-  fileKey: optionalText,
-  fileUrl: z
-    .string()
-    .default("")
-    .transform((v) => (v.length > 0 ? v : undefined))
-    .pipe(z.string().url().optional()),
-  fileName: optionalText,
+  company: z.string(),
+  sector: z.string(),
+  product: z.string(),
+  quantity: z.string(),
+  timeline: z.string(),
+  message: z.string().max(2000),
+  fileKey: z.string().optional(),
+  fileUrl: z.string().url().optional(),
+  fileName: z.string().optional(),
 });
 
 // ─── Contact form (simple) ────────────────────────────────────────────────────
@@ -60,8 +47,8 @@ export const contactSchema = z.object({
     .regex(/^[\d\s\+\-\(\)]+$/, "Invalid phone number"),
   email: optionalEmail,
   message: z.string().min(5, "Please enter a message").max(1000),
-  turnstileToken,
-  _hp: honeypot,
+  turnstileToken: z.string().min(1, "Please complete the security check"),
+  _hp: z.literal("").optional(),
 });
 
 // ─── Fabricator application ───────────────────────────────────────────────────
@@ -74,12 +61,12 @@ export const fabricatorSchema = z.object({
     .regex(/^[\d\s\+\-\(\)]+$/),
   email: z.string().email("Enter a valid email"),
   city: z.string().min(2),
-  yearsInBusiness: optionalText,
-  monthlyVolume: optionalText,
-  currentSupplier: optionalText,
-  message: z.string().default("").pipe(z.string().max(1000)),
-  turnstileToken,
-  _hp: honeypot,
+  yearsInBusiness: z.string(),
+  monthlyVolume: z.string(),
+  currentSupplier: z.string(),
+  message: z.string().max(1000),
+  turnstileToken: z.string().min(1, "Please complete the security check"),
+  _hp: z.literal("").optional(),
 });
 
 // ─── Callback request ─────────────────────────────────────────────────────────
@@ -89,9 +76,9 @@ export const callbackSchema = z.object({
     .string()
     .min(10)
     .regex(/^[\d\s\+\-\(\)]+$/),
-  preferredTime: optionalText,
-  turnstileToken,
-  _hp: honeypot,
+  preferredTime: z.string(),
+  turnstileToken: z.string().min(1, "Please complete the security check"),
+  _hp: z.literal("").optional(),
 });
 
 // ─── Types ────────────────────────────────────────────────────────────────────
