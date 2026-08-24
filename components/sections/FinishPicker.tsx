@@ -83,7 +83,7 @@ export default function FinishPicker() {
               </h2>
               <p className="t-body mb-8" style={{ color: "var(--fg-secondary)" }}>
                 Greentech profiles are available in a range of foil finishes —
-                supply us your project requirement and we'll confirm availability.
+                supply us your project requirement and we&apos;ll confirm availability.
               </p>
 
               {/* Swatch grid */}

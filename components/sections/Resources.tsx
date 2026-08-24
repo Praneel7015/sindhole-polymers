@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { resources, resourceCategories, type ResourceItem } from "@/content/resources";
+import { resources, resourceCategories } from "@/content/resources";
 
 type Category = typeof resourceCategories[number]["id"];
 
@@ -37,7 +37,7 @@ export default function Resources() {
             </h2>
           </div>
           <p className="t-body-sm max-w-xs" style={{ color: "var(--fg-secondary)" }}>
-            Brochures, datasheets, and fabrication guides. Can't find what you need?
+            Brochures, datasheets, and fabrication guides. Can&apos;t find what you need?
             {" "}<a href="#contact" style={{ color: "var(--accent)" }}>Ask us.</a>
           </p>
         </motion.div>

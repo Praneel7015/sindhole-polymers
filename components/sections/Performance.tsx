@@ -143,6 +143,8 @@ function AnimatedNumber({
 
   useEffect(() => {
     if (!inView || reduced) {
+      // Immediately snap to final value when animation is skipped
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplay(value);
       return;
     }

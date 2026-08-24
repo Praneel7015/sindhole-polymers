@@ -26,7 +26,7 @@ export default function About() {
           >
             <p className="t-eyebrow mb-3">About Us</p>
             <h2 className="t-display-md mb-6" style={{ color: "var(--fg-ink)" }}>
-              Bidar's authorised{" "}
+              Bidar&apos;s authorised{" "}
               <span style={{ color: "var(--accent)" }}>Greentech source.</span>
             </h2>
             <div className="flex flex-col gap-4 t-body" style={{ color: "var(--fg-secondary)" }}>
@@ -34,12 +34,12 @@ export default function About() {
                 Sindhole Polymers was established in 2025 with one aim: bring
                 genuine, ISO-certified Greentech uPVC profile systems to fabricators
                 and developers across North Karnataka — from a real showroom, with
-                real stock, and real support.
+                real stock, and real support. 
               </p>
               <p>
                 As an authorised Greentech dealer, we supply the same profiles,
                 with the same certifications, that Greentech distributes across India —
-                but we're the closest source to Bidar, Kalaburagi, and Gulbarga.
+                but we&apos;re the closest source to Bidar, Kalaburagi, and Gulbarga.
                 That means faster supply, local relationships, and someone you can
                 actually walk in and talk to.
               </p>

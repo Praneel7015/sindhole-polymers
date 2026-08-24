@@ -205,6 +205,7 @@ function ProductCard({
 }
 
 /* ─── Profile thumbnail SVG ──────────────────────── */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ProfileThumbnail({ code }: { code: string }) {
   const isSliding = code.includes("Sliding");
   return (

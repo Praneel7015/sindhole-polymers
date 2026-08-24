@@ -290,7 +290,7 @@ function CrossSectionSVG({
       <motion.g
         initial={{ opacity: 0, scaleY: 0.4 }}
         animate={inView ? { opacity: 1, scaleY: 1 } : {}}
-        transition={{ duration: reduced ? 0 : 0.4, delay: d(0.75), ease: [0.16,1,0.3,1] as any }}
+        transition={{ duration: reduced ? 0 : 0.4, delay: d(0.75), ease: [0.16,1,0.3,1] as [number, number, number, number] }}
         style={{ transformOrigin: "250px 150px" }}
       >
         <rect x="147" y="68" width="5" height="162"

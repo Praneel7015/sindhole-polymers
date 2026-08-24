@@ -29,10 +29,10 @@ export default function PrivacyPage() {
         >
           <Section title="1. Who we are">
             <p>
-              This Privacy Policy applies to <strong>Sindhole Polymers</strong> ("we", "us", "our"),
+              This Privacy Policy applies to <strong>Sindhole Polymers</strong> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;),
               a business operating at Manahalli Road, Basaveshwara Nagar, Bidar, Karnataka 585403,
               India. We operate the website at{" "}
-              <a href="https://polymers.sindhole.com">polymers.sindhole.com</a> (the "Site").
+              <a href="https://polymers.sindhole.com">polymers.sindhole.com</a> (the &ldquo;Site&rdquo;).
             </p>
           </Section>
 
@@ -100,7 +100,7 @@ export default function PrivacyPage() {
                 <strong>Uploadthing</strong> — file storage for uploaded attachments
               </li>
               <li>
-                <strong>Google Maps</strong> — embedded map on our Contact page (Google's privacy
+                <strong>Google Maps</strong> — embedded map on our Contact page (Google&apos;s privacy
                 policy applies to the map embed)
               </li>
             </ul>
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
 
           <Section title="8. Changes to this policy">
             <p>
-              We may update this policy from time to time. The "Last updated" date at the top of
+              We may update this policy from time to time. The &ldquo;Last updated&rdquo; date at the top of
               this page reflects the most recent version. Continued use of the Site after changes
               constitutes acceptance of the revised policy.
             </p>

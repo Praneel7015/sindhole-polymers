@@ -60,6 +60,8 @@ export function Header() {
     if (mobileOpen) document.body.style.overflow = "hidden";
     else {
       document.body.style.overflow = "";
+      // Close product subnav when drawer closes — intentional side effect
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMobileProductsOpen(false);
     }
     return () => { document.body.style.overflow = ""; };

@@ -2,6 +2,21 @@ import { z } from "zod";
 
 export const userTypeSchema = z.enum(["trade", "homeowner"]);
 
+/** Optional text input — missing keys and empty strings both become "". */
+const optionalText = z.string().default("");
+
+const optionalEmail = z
+  .string()
+  .default("")
+  .pipe(z.union([z.literal(""), z.string().email("Enter a valid email address")]));
+
+const turnstileToken = z.preprocess(
+  (v) => (v === undefined || v === null ? "" : v),
+  z.string().min(1, "Please complete the security check"),
+);
+
+const honeypot = z.union([z.literal(""), z.undefined()]).optional();
+
 // ─── Base contact fields ───────────────────────────────────────────────────────
 const contactBase = z.object({
   userType: userTypeSchema,
@@ -10,24 +25,30 @@ const contactBase = z.object({
     .string()
     .min(10, "Enter a valid phone number")
     .regex(/^[\d\s\+\-\(\)]+$/, "Invalid phone number"),
-  email: z.string().email("Enter a valid email address").or(z.literal("")),
-  city: z.string().min(2, "Enter your city").optional().or(z.literal("")),
-  turnstileToken: z.string().min(1, "Please complete the security check"),
-  // honeypot — must be empty
-  _hp: z.literal("").optional(),
+  email: optionalEmail,
+  city: z
+    .string()
+    .default("")
+    .refine((v) => v === "" || v.length >= 2, { message: "Enter your city" }),
+  turnstileToken,
+  _hp: honeypot,
 });
 
 // ─── Enquiry schema (multi-step) ──────────────────────────────────────────────
 export const enquirySchema = contactBase.extend({
-  company: z.string().optional(),
-  sector: z.string().optional(),
-  product: z.string().optional(),
-  quantity: z.string().optional(),
-  timeline: z.string().optional(),
-  message: z.string().max(2000).optional(),
-  fileKey: z.string().optional(), // UploadThing file key after upload
-  fileUrl: z.string().url().optional(),
-  fileName: z.string().optional(),
+  company: optionalText,
+  sector: optionalText,
+  product: optionalText,
+  quantity: optionalText,
+  timeline: optionalText,
+  message: z.string().default("").pipe(z.string().max(2000)),
+  fileKey: optionalText,
+  fileUrl: z
+    .string()
+    .default("")
+    .transform((v) => (v.length > 0 ? v : undefined))
+    .pipe(z.string().url().optional()),
+  fileName: optionalText,
 });
 
 // ─── Contact form (simple) ────────────────────────────────────────────────────
@@ -37,10 +58,10 @@ export const contactSchema = z.object({
     .string()
     .min(10, "Enter a valid phone number")
     .regex(/^[\d\s\+\-\(\)]+$/, "Invalid phone number"),
-  email: z.string().email("Enter a valid email").or(z.literal("")),
+  email: optionalEmail,
   message: z.string().min(5, "Please enter a message").max(1000),
-  turnstileToken: z.string().min(1, "Please complete the security check"),
-  _hp: z.literal("").optional(),
+  turnstileToken,
+  _hp: honeypot,
 });
 
 // ─── Fabricator application ───────────────────────────────────────────────────
@@ -53,12 +74,12 @@ export const fabricatorSchema = z.object({
     .regex(/^[\d\s\+\-\(\)]+$/),
   email: z.string().email("Enter a valid email"),
   city: z.string().min(2),
-  yearsInBusiness: z.string().optional(),
-  monthlyVolume: z.string().optional(),
-  currentSupplier: z.string().optional(),
-  message: z.string().max(1000).optional(),
-  turnstileToken: z.string().min(1, "Please complete the security check"),
-  _hp: z.literal("").optional(),
+  yearsInBusiness: optionalText,
+  monthlyVolume: optionalText,
+  currentSupplier: optionalText,
+  message: z.string().default("").pipe(z.string().max(1000)),
+  turnstileToken,
+  _hp: honeypot,
 });
 
 // ─── Callback request ─────────────────────────────────────────────────────────
@@ -68,9 +89,9 @@ export const callbackSchema = z.object({
     .string()
     .min(10)
     .regex(/^[\d\s\+\-\(\)]+$/),
-  preferredTime: z.string().optional(),
-  turnstileToken: z.string().min(1, "Please complete the security check"),
-  _hp: z.literal("").optional(),
+  preferredTime: optionalText,
+  turnstileToken,
+  _hp: honeypot,
 });
 
 // ─── Types ────────────────────────────────────────────────────────────────────

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
@@ -58,13 +58,34 @@ export default function Enquiry() {
     handleSubmit,
     watch,
     setValue,
+    clearErrors,
     trigger,
     formState: { errors },
   } = useForm<EnquiryInput>({
     resolver: zodResolver(enquirySchema),
-    defaultValues: { userType: "homeowner" },
+    defaultValues: {
+      userType: "homeowner",
+      name: "",
+      phone: "",
+      email: "",
+      city: "",
+      company: "",
+      sector: "",
+      product: "",
+      quantity: "",
+      timeline: "",
+      message: "",
+      turnstileToken: "",
+      _hp: "",
+    },
   });
 
+  // Register Turnstile token without a DOM input (set via widget callbacks)
+  useEffect(() => {
+    register("turnstileToken");
+  }, [register]);
+
+  // eslint-disable-next-line react-hooks/incompatible-library
   const userType = watch("userType");
 
   async function handleNext() {
@@ -144,7 +165,7 @@ export default function Enquiry() {
               Enquiry received.
             </h2>
             <p className="t-body" style={{ color: "var(--fg-secondary)" }}>
-              We'll be in touch shortly. For faster response, WhatsApp us directly.
+              We&apos;ll be in touch shortly. For faster response, WhatsApp us directly.
             </p>
             <a
               href={siteConfig.whatsappPrefilled}
@@ -175,8 +196,8 @@ export default function Enquiry() {
               Start your project.
             </h2>
             <p className="t-body mb-8 max-w-md" style={{ color: "var(--fg-secondary)" }}>
-              Whether you're a fabricator looking to stock Greentech profiles or a homeowner
-              planning new windows — send us the details and we'll respond with options, pricing,
+              Whether you&apos;re a fabricator looking to stock Greentech profiles or a homeowner
+              planning new windows — send us the details and we&apos;ll respond with options, pricing,
               and availability.
             </p>
 
@@ -395,7 +416,20 @@ export default function Enquiry() {
                     <div className="mb-4">
                       <Turnstile
                         siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA"}
-                        onSuccess={(token) => setValue("turnstileToken", token)}
+                        onSuccess={(token) => {
+                          setValue("turnstileToken", token, {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                            shouldTouch: true,
+                          });
+                          clearErrors("turnstileToken");
+                        }}
+                        onExpire={() =>
+                          setValue("turnstileToken", "", { shouldValidate: true })
+                        }
+                        onError={() =>
+                          setValue("turnstileToken", "", { shouldValidate: true })
+                        }
                         options={{ theme: "light", size: "normal" }}
                       />
                       {errors.turnstileToken && (

@@ -74,9 +74,9 @@ export function Footer() {
 
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <a href="/" className="inline-block mb-5">
+            <Link href="/" className="inline-block mb-5">
               <FooterWordmark />
-            </a>
+            </Link>
             <p className="t-body-xs mb-5" style={{ color: "rgba(255,255,255,0.45)" }}>
               Authorised dealer of Greentech uPVC window & door profile systems.
               Serving North Karnataka from Bidar.

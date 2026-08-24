@@ -72,13 +72,13 @@ export default function DistributorPage() {
 
           <Section title="Trademark and Brand Usage Notice">
             <p>
-              The "Greentech" name, Greentech logo, and associated product names are trademarks of{" "}
+              The &ldquo;Greentech&rdquo; name, Greentech logo, and associated product names are trademarks of{" "}
               <strong>Greentech uPVC India Pvt. Ltd.</strong> Use of these marks on this website is
               made solely under the authorised dealer relationship and does not imply any ownership
               or independent trademark rights by Sindhole Polymers.
             </p>
             <p>
-              "DIMEX" and DIMEX GmbH references on this website are made to accurately represent the
+              &ldquo;DIMEX&rdquo; and DIMEX GmbH references on this website are made to accurately represent the
               technology heritage of Greentech profile systems and are the property of their
               respective owners.
             </p>

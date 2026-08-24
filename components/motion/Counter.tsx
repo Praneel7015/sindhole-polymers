@@ -16,6 +16,7 @@ interface CounterProps {
 export function Counter({
   from = 0,
   to,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   duration = 1.4,
   suffix = "",
   prefix = "",

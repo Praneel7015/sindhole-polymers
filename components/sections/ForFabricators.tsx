@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone } from "lucide-react";
 
 const benefits = [
   {
@@ -68,7 +68,7 @@ export default function ForFabricators() {
             >
               <div className="t-display-sm font-medium mb-2">Ready to register?</div>
               <p className="t-body-sm mb-5 opacity-80">
-                Fill in the fabricator application form and we'll get in touch within one business day.
+                Fill in the fabricator application form and we&apos;ll get in touch within one business day.
               </p>
               <a
                 href="#enquiry"

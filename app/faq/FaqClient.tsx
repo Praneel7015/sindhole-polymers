@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { FaqItem, FaqCategory } from "@/content/faq";
@@ -123,16 +124,16 @@ export default function FaqClient({ faqs, categories }: Props) {
             Still have questions?
           </h2>
           <p className="t-body mb-5" style={{ color: "var(--fg-secondary)" }}>
-            We're happy to talk through your project or specific requirements.
+            We&apos;re happy to talk through your project or specific requirements.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <a
+            <Link
               href="/#enquiry"
               className="px-5 py-2.5 rounded-full t-body-sm font-semibold transition-opacity hover:opacity-80"
               style={{ background: "var(--accent)", color: "var(--accent-on)" }}
             >
               Send an enquiry
-            </a>
+            </Link>
             <a
               href={siteConfig.whatsapp}
               target="_blank"
